@@ -23,8 +23,6 @@ defmodule BlogWeb.Router do
     end
   end
 
-
-
   # Other scopes may use custom stacks.
   # scope "/api", BlogWeb do
   #   pipe_through :api

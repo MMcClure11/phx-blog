@@ -32,8 +32,9 @@ defmodule BlogWeb.PostController do
   def show(conn, %{"id" => id}) do
     post =
       id
-      |> Posts.get_post!
+      |> Posts.get_post!()
       |> Repo.preload([:comments])
+
     changeset = Comment.changeset(%Comment{}, %{})
     render(conn, "show.html", post: post, changeset: changeset)
   end
@@ -72,11 +73,13 @@ defmodule BlogWeb.PostController do
       post_id
       |> Posts.get_post!()
       |> Repo.preload([:comments])
+
     case Posts.add_comment(post_id, comment_params) do
       {:ok, _comment} ->
         conn
         |> put_flash(:info, "Comment added :)")
         |> redirect(to: Routes.post_path(conn, :show, post))
+
       {:error, _error} ->
         conn
         |> put_flash(:error, "Comment not added :(")
